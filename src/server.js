@@ -10,6 +10,12 @@ const notFoundHandler = require("./error-handlers/404.js");
 const errorHandler = require("./error-handlers/500.js");
 const logger = require("./middleware/logger.js");
 const v1Routes = require("./routes/v1.js");
+app.use(cors());
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "https://todo-v63a.onrender.com");
+
+  next();
+});
 app.use((req, res, next) => {
   const allowedOrigins = [
     "http://localhost:5173",
@@ -37,7 +43,7 @@ function welcomeHandler(req, res) {
 
 app.use("*", notFoundHandler);
 app.use(errorHandler);
-app.use(cors());
+
 app.use(morgan("dev"));
 app.use(express.urlencoded({ extended: true }));
 
